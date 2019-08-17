@@ -20,6 +20,10 @@ start() {
     return 1
   fi
   echo 'Starting service…' >&2
+  # create logfile incase <USER> has no right of access to the log file
+  touch ${LOGFILE}
+  chown ${RUNAS} ${LOGFILE}
+
   local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
   su -c "$CMD" $RUNAS > "$PIDFILE"
  # Try with this command line instead of above if not workable
